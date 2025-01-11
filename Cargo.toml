@@ -1,5 +1,5 @@
 [package]
-name = "flutterwave-models"
+name = "flutterwave-v3-models"
 version = "0.1.0-alpha.1"
 edition = "2021"
 description = "models crate for flutterwaveV3"
