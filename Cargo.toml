@@ -3,15 +3,15 @@ name = "flutterwave-v3-models"
 version = "0.1.0-alpha.1"
 edition = "2021"
 description = "models crate for flutterwaveV3"
-repository = "https://github.com/didoloan/flutterwave-models.git"
-homepage = "https://github.com/didoloan/flutterwave-models.git"
+repository = "https://github.com/didoloan/flutterwave-v3-models.git"
+homepage = "https://github.com/didoloan/flutterwave-v3-models.git"
 license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-validator = { workspace = true }
-thiserror = { workspace = true }
-reqwest = { workspace = true }
-chrono = { workspace = true }
+reqwest = { version = "^0.12.12", features = ["brotli", "deflate", "gzip", "rustls-tls", "stream", "zstd", "json"] }
+serde = { version="^1.0.189", features=["derive"] }
+validator = { version = "^0.16.1", features = ["card", "derive", "phone"] }
+thiserror = "^1.0.57"
+serde_json = "^1.0.114"
+chrono = { version="^0.4.38", features=["serde"] }
