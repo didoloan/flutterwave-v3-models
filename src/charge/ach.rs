@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use validator::Validate;
+use crate::common::customer::CustomerData;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct AchReq {
@@ -22,6 +23,19 @@ pub struct AchRes {
     pub status: String,
     pub message: String,
     pub data: AchResData,
+    pub meta: AchResMeta
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AchResMeta {
+    pub authorization: AchResAuthorization
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AchResAuthorization {
+    pub mode: String,
+    pub redirect: String,
+    pub validate_instructions: String
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -47,14 +61,5 @@ pub struct AchResData {
     pub created_at: String,
     pub account_id: i64,
     pub redirect_url: String,
-    pub customer: AchResCustomer,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct AchResCustomer {
-    pub id: i64,
-    pub phone_number: Option<String>,
-    pub name: String,
-    pub email: String,
-    pub created_at: String,
+    pub customer: CustomerData,
 }

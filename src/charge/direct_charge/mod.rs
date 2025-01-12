@@ -1,8 +1,8 @@
+use crate::common::charge_res_data::ChargeResData;
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use validator::Validate;
-use crate::common::card_data_res::ResCardData;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct CardChargeReq {
@@ -112,15 +112,6 @@ pub struct CardChargeRes {
     pub message: String,
     pub data: ChargeResData,
     pub meta: Meta,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct Customer {
-    pub id: i64,
-    pub phone_number: Option<String>,
-    pub name: String,
-    pub email: String,
-    pub created_at: String,
 }
 
 #[derive(Serialize, Deserialize)]

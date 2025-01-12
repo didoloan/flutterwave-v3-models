@@ -1,3 +1,4 @@
+use crate::common::charge_res_data::ChargeResData;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 

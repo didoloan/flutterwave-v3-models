@@ -1,4 +1,8 @@
-#[derive(Serialize, Deserialize)]
+use serde::{Deserialize, Serialize};
+use crate::common::card_data_res::ResCardData;
+use super::customer::CustomerData;
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ChargeResData {
     pub id: i64,
     pub tx_ref: String,
@@ -20,6 +24,6 @@ pub struct ChargeResData {
     pub charge_type: String,
     pub created_at: String,
     pub account_id: i64,
-    pub customer: Customer,
+    pub customer: CustomerData,
     pub card: ResCardData,
 }

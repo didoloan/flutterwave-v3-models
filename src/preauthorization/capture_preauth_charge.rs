@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::common::charge_res_data::ChargeResData;
+
 
 #[derive(Debug, Deserialize, Serialize, Validate)]
 pub struct CapturePreAuthChargeReq {
