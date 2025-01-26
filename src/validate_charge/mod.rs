@@ -1,6 +1,13 @@
 use crate::common::card_data_res::ResCardData;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::{
+    api_responses::ResponseType,
+    common::payload::Payload,
+    fwcall::{FwCall, ToFwCall},
+};
+use std::borrow::Cow;
+
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct ValidateChargeReq {
@@ -10,6 +17,7 @@ pub struct ValidateChargeReq {
     #[serde(rename = "type")]
     pub charge_type: String,
 }
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ValidateChargeRes {
@@ -51,4 +59,18 @@ pub struct ResponseCustomerData {
     name: String,
     email: String,
     created_at: String,
+}
+
+impl<'a> ToFwCall<'a> for ValidateChargeReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<ValidateChargeRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Borrowed("/v3/validate-charge"),
+            reqwest::Method::POST,
+            Some(Payload::Plain(self)),
+        )
+    }
 }

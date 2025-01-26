@@ -1,5 +1,10 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::{
+    api_responses::ResponseType,
+    fwcall::{FwCall, ToFwCall},
+};
+use std::borrow::Cow;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct VerifyTransByIdReq {
@@ -10,6 +15,7 @@ pub struct VerifyTransByIdReq {
 pub struct VerifyTransByTxRefReq {
     pub tx_ref: String,
 }
+
 
 #[derive(Serialize, Deserialize)]
 pub struct VerifyTransRes {
@@ -64,4 +70,35 @@ pub struct Customer {
     pub phone_number: String,
     pub email: String,
     pub created_at: String,
+}
+
+impl<'a> ToFwCall<'a> for VerifyTransByIdReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<VerifyTransRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Owned(format!("/v3/transactions/{}/verify", self.trans_id)),
+            reqwest::Method::GET,
+            None,
+        )
+    }
+}
+
+impl<'a> ToFwCall<'a> for VerifyTransByTxRefReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<VerifyTransRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Owned(format!(
+                "/v3/transactions/verify_by_reference?tx_ref={}",
+                self.tx_ref
+            )),
+            reqwest::Method::GET,
+            None,
+        )
+    }
 }

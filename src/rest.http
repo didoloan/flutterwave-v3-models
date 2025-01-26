@@ -1,0 +1,15 @@
+GET https://api.flutterwave.com/v3/refunds HTTP/1.1
+Authorization: Bearer FLWSECK_TEST-SANDBOXDEMOKEY-X
+
+
+HTTP/1.1 200  - OK
+date: Wed, 15 Jan 2025 18:00:28 GMT
+content-type: application/json; charset=utf-8
+content-length: 5895
+connection: close
+server: nginx/1.26.0
+access-control-allow-origin: *
+access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, v3-xapp-id, flw-auth-token, mra-auth-token, alt_mode_auth, mid, altmodeauth, cc-admin-token, x-flw-lang
+access-control-allow-methods: PUT, POST, GET, DELETE, OPTIONS
+etag: W/"1707-SXAbDUD4Vdv1c5A4+MuaFA"
+strict-transport-security: max-age=31536000; includeSubDomains; preload; always;

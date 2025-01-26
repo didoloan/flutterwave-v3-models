@@ -1,7 +1,11 @@
-use crate::common::charge_res_data::ChargeResData;
+use crate::{
+    api_responses::ResponseType,
+    common::{charge_res_data::ChargeResData, payload::Payload},
+    fwcall::{FwCall, ToFwCall},
+};
 use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -35,6 +39,20 @@ pub struct CardChargeReq {
     pub a_time: NaiveDateTime,
     pub meta: HashMap<String, String>,
     pub subaccounts: Vec<SubAccount>,
+}
+
+impl<'a> ToFwCall<'a> for CardChargeReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<CardChargeRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Borrowed("/v3/charges?type=card_charge"),
+            reqwest::Method::POST,
+            Some(Payload::ToEncrypt(self)),
+        )
+    }
 }
 
 #[derive(Debug)]

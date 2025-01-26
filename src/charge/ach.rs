@@ -1,3 +1,9 @@
+use crate::{
+    api_responses::ResponseType,
+    common::payload::Payload,
+    fwcall::{FwCall, ToFwCall},
+};
+use std::borrow::Cow;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use validator::Validate;
@@ -16,6 +22,20 @@ pub struct AchReq {
     pub meta: HashMap<String, String>,
     pub redirect_url: String,
     pub country: String,
+}
+
+impl<'a> ToFwCall<'a> for AchReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<AchRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Borrowed("/v3/charges?type=ach_payment"),
+            reqwest::Method::PUT,
+            Some(Payload::Plain(self)),
+        )
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]

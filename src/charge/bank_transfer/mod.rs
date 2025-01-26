@@ -1,5 +1,10 @@
+use crate::{
+    api_responses::ResponseType,
+    common::payload::Payload,
+    fwcall::{FwCall, ToFwCall},
+};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 use validator::Validate;
 
 #[derive(Debug, Deserialize, Serialize, Validate)]
@@ -19,6 +24,20 @@ pub struct BankTransferReq {
     pub subaccounts: Vec<BankTransferSubAcct>,
     pub narration: Option<String>,
     pub is_permanent: bool,
+}
+
+impl<'a> ToFwCall<'a> for BankTransferReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<BankTransferRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Borrowed("/v3/charges?type=bank_transfer"),
+            reqwest::Method::POST,
+            Some(Payload::ToEncrypt(self)),
+        )
+    }
 }
 
 #[derive(Debug, Deserialize, Serialize)]

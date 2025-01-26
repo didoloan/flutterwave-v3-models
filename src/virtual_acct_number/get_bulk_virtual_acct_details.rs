@@ -1,5 +1,8 @@
+use std::borrow::Cow;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::{api_responses::ResponseType, common::payload::Payload, fwcall::{FwCall, ToFwCall}};
+use super::virt_res_acct_data::VirtualAcctResAcctData;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct BulkVirtualAcctDetailsReq {
@@ -10,20 +13,22 @@ pub struct BulkVirtualAcctDetailsReq {
 pub struct BulkVirtualAcctDetailsRes {
     pub status: String,
     pub message: String,
-    pub data: BulkVirtAcctDetailsResData,
+    pub data: Vec<VirtualAcctResAcctData>
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct BulkVirtAcctDetailsResData {
-    pub response_code: String,
-    pub response_message: String,
-    pub flw_ref: String,
-    pub order_ref: String,
-    pub account_number: String,
-    pub frequency: String,
-    pub bank_name: String,
-    pub created_at: String,
-    pub expiry_date: String,
-    pub note: String,
-    pub amount: String,
+impl<'a> ToFwCall<'a> for BulkVirtualAcctDetailsReq {
+    type ApiRequest = Self;
+
+    type ApiResponse = ResponseType<BulkVirtualAcctDetailsRes>;
+
+    fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
+        FwCall::new(
+            Cow::Owned(format!(
+                "/v3/bulk-virtual-account-numbers/{}",
+                self.batch_id
+            )),
+            reqwest::Method::GET,
+            Some(Payload::Plain(self)),
+        )
+    }
 }
