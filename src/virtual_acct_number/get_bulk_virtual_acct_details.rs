@@ -1,8 +1,11 @@
-use std::borrow::Cow;
-use serde::{Deserialize, Serialize};
-use validator::Validate;
-use crate::{api_responses::ResponseType, common::payload::Payload, fwcall::{FwCall, ToFwCall}};
 use super::virt_res_acct_data::VirtualAcctResAcctData;
+use crate::{
+    common::payload::Payload,
+    fwcall::{FwCall, ToFwCall},
+};
+use serde::{Deserialize, Serialize};
+use std::borrow::Cow;
+use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct BulkVirtualAcctDetailsReq {
@@ -13,13 +16,13 @@ pub struct BulkVirtualAcctDetailsReq {
 pub struct BulkVirtualAcctDetailsRes {
     pub status: String,
     pub message: String,
-    pub data: Vec<VirtualAcctResAcctData>
+    pub data: Vec<VirtualAcctResAcctData>,
 }
 
 impl<'a> ToFwCall<'a> for BulkVirtualAcctDetailsReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<BulkVirtualAcctDetailsRes>;
+    type ApiResponse = BulkVirtualAcctDetailsRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

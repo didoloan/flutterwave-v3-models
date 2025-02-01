@@ -1,7 +1,4 @@
-use crate::{
-    api_responses::ResponseType,
-    fwcall::{FwCall, ToFwCall},
-};
+use crate::fwcall::{FwCall, ToFwCall};
 use std::borrow::Cow;
 use serde::{Deserialize, Serialize};
 use crate::payment_plans::PlanApiRes;
@@ -15,7 +12,7 @@ pub struct CancelPlanReq {
 impl<'a> ToFwCall<'a> for CancelPlanReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<PlanApiRes>;
+    type ApiResponse = PlanApiRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

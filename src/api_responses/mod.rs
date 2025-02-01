@@ -1,11 +1,26 @@
+pub mod custom_stat_code;
+pub use custom_stat_code::StatCode;
+
+use reqwest::StatusCode;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(untagged)]
 pub enum ResponseType<T> {
     Success(T),
-    Error400(FwError400Res),
-    Error500(FwError500Res),
+    Error(FwErrorRes)
+}
+
+impl<T:> ResponseType<T> {
+    pub fn replace_stat_code(self, status_code: StatusCode) -> Self {
+        match self {
+            ResponseType::Success(data) => ResponseType::Success(data),
+            ResponseType::Error(mut err) => {
+                err.status_code = status_code.into();
+                ResponseType::Error(err)
+            }
+        }
+    }
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -15,15 +30,10 @@ pub struct ErrorResData {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct FwError400Res {
+pub struct FwErrorRes {
+    #[serde(default)]
+    pub status_code: StatCode,
     pub status: String,
     pub message: String,
-    pub data: Option<ErrorResData>,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct FwError500Res {
-    pub status: String,
-    pub message: String,
-    pub data: Option<ErrorResData>,
+    pub data: Option<ErrorResData>
 }

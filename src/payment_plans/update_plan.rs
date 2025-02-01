@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -31,7 +30,7 @@ pub enum PlanStatus {
 impl<'a> ToFwCall<'a> for UpdatePlanReq {
     type ApiRequest = UpdatePlanReqBody;
 
-    type ApiResponse = ResponseType<PlanApiRes>;
+    type ApiResponse = PlanApiRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

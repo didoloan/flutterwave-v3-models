@@ -2,10 +2,7 @@ use super::{Interval, PlanApiResData};
 use crate::common::multi_res_meta::MultiResMeta;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
-use crate::{
-    api_responses::ResponseType,
-    fwcall::{FwCall, ToFwCall},
-};
+use crate::fwcall::{FwCall, ToFwCall};
 use serde_qs;
 use std::borrow::Cow;
 
@@ -31,7 +28,7 @@ pub struct GetPlansRes {
 impl<'a> ToFwCall<'a> for GetPlansReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<GetPlansRes>;
+    type ApiResponse = GetPlansRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

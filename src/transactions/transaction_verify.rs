@@ -1,9 +1,6 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
-use crate::{
-    api_responses::ResponseType,
-    fwcall::{FwCall, ToFwCall},
-};
+use crate::fwcall::{FwCall, ToFwCall};
 use std::borrow::Cow;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -75,7 +72,7 @@ pub struct Customer {
 impl<'a> ToFwCall<'a> for VerifyTransByIdReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<VerifyTransRes>;
+    type ApiResponse = VerifyTransRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(
@@ -89,7 +86,7 @@ impl<'a> ToFwCall<'a> for VerifyTransByIdReq {
 impl<'a> ToFwCall<'a> for VerifyTransByTxRefReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<VerifyTransRes>;
+    type ApiResponse = VerifyTransRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

@@ -1,5 +1,4 @@
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -27,7 +26,7 @@ pub struct AchReq {
 impl<'a> ToFwCall<'a> for AchReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<AchRes>;
+    type ApiResponse = AchRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

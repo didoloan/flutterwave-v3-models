@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -35,11 +34,11 @@ pub struct QueryTransFeesResData {
 impl<'a> ToFwCall<'a> for QueryTransFeesReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<QueryTransFeesRes>;
+    type ApiResponse = QueryTransFeesRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(
-            Cow::Owned(format!("/v3/transactions/fees")),
+            Cow::Owned(format!("/v3/transactions/fees?{}", serde_qs::to_string(&self).unwrap())),
             reqwest::Method::POST,
             Some(Payload::Plain(self)),
         )

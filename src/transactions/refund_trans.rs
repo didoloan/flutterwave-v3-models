@@ -2,7 +2,6 @@ use serde::{Deserialize, Serialize};
 use validator::Validate;
 use std::borrow::Cow;
 use crate::{
-    api_responses::ResponseType,
     common::{charge_res_data::ChargeResData, payload::Payload},
     fwcall::{FwCall, ToFwCall},
 };
@@ -23,7 +22,7 @@ pub struct RefundTransactionRes {
 impl<'a> ToFwCall<'a> for RefundTransactionReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<RefundTransactionRes>;
+    type ApiResponse = RefundTransactionRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

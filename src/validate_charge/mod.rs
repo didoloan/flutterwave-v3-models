@@ -2,7 +2,6 @@ use crate::common::card_data_res::ResCardData;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -64,7 +63,7 @@ pub struct ResponseCustomerData {
 impl<'a> ToFwCall<'a> for ValidateChargeReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<ValidateChargeRes>;
+    type ApiResponse = ValidateChargeRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

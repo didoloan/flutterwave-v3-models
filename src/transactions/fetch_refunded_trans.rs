@@ -3,11 +3,14 @@ use std::borrow::Cow;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
-use crate::{common::multi_res_meta::MultiResMeta, fwcall::{FwCall, ToFwCall}};
+use crate::{
+    common::multi_res_meta::MultiResMeta,
+    fwcall::{FwCall, ToFwCall},
+};
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct FetchRefundedTransReq {
-    pub id: i32
+    pub id: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -31,7 +34,7 @@ pub struct FetchRefundedTransRes {
     pub meta: Meta,
     pub created_at: String,
     pub account_id: i32,
-    pub transaction_id: i32
+    pub transaction_id: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -39,14 +42,14 @@ pub struct FetchMultiRefundedTransRes {
     pub status: String,
     pub message: String,
     pub meta: MultiResMeta,
-    pub data: Vec<FetchRefundedTransRes>
+    pub data: Vec<FetchRefundedTransRes>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct Meta {
     source: String,
     uniquereference: String,
-    provider: String
+    provider: String,
 }
 
 impl<'a> ToFwCall<'a> for FetchRefundedTransReq {
@@ -58,7 +61,7 @@ impl<'a> ToFwCall<'a> for FetchRefundedTransReq {
         FwCall::new(
             Cow::Owned(format!("/v3/refunds/{}", self.id)),
             reqwest::Method::GET,
-            None
+            None,
         )
     }
 }
@@ -70,9 +73,12 @@ impl<'a> ToFwCall<'a> for FetchMultiRefundedTransReq {
 
     fn get_call(self) -> crate::fwcall::FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(
-            Cow::Owned(format!("/v3/refunds?{}", serde_qs::to_string(&self).unwrap())),
+            Cow::Owned(format!(
+                "/v3/refunds?{}",
+                serde_qs::to_string(&self).unwrap()
+            )),
             reqwest::Method::GET,
-            None
+            None,
         )
     }
 }

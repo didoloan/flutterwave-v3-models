@@ -1,5 +1,4 @@
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -29,7 +28,7 @@ pub struct BankTransferReq {
 impl<'a> ToFwCall<'a> for BankTransferReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<BankTransferRes>;
+    type ApiResponse = BankTransferRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

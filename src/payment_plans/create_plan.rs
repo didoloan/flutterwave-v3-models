@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 use validator::Validate;
 use std::borrow::Cow;
 use crate::{
-    api_responses::ResponseType,
     common::payload::Payload,
     fwcall::{FwCall, ToFwCall},
 };
@@ -19,7 +18,7 @@ pub struct CreatePlanReq {
 impl<'a> ToFwCall<'a> for CreatePlanReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<PlanApiRes>;
+    type ApiResponse = PlanApiRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

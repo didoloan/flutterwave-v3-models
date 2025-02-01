@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use crate::{
-    api_responses::ResponseType,
     common::{charge_res_data::ChargeResData, payload::Payload},
     fwcall::{FwCall, ToFwCall},
 };
@@ -28,7 +27,7 @@ pub struct RefundPreAuthChargeRes {
 impl<'a> ToFwCall<'a> for RefundPreAuthChargeReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<RefundPreAuthChargeRes>;
+    type ApiResponse = RefundPreAuthChargeRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(

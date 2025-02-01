@@ -1,5 +1,4 @@
 use crate::{
-    api_responses::ResponseType,
     common::{charge_res_data::ChargeResData, payload::Payload},
     fwcall::{FwCall, ToFwCall},
 };
@@ -44,7 +43,7 @@ pub struct CardChargeReq {
 impl<'a> ToFwCall<'a> for CardChargeReq {
     type ApiRequest = Self;
 
-    type ApiResponse = ResponseType<CardChargeRes>;
+    type ApiResponse = CardChargeRes;
 
     fn get_call(self) -> FwCall<'a, Self::ApiRequest, Self::ApiResponse> {
         FwCall::new(
